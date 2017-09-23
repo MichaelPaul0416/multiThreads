@@ -67,14 +67,14 @@ class box{
     public void display(){
         System.out.println(Thread.currentThread().getName() + "进入方法display，该方法是中有非静态同步代码块");
         synchronized(this){
-            System.out.println(Thread.currentThread().getName() + "访问数字--box'number" + number);
+            System.out.println(Thread.currentThread().getName() + "访问数字--box'number " + number);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            System.out.println(Thread.currentThread().getName() + "访问描述--box'describe" + describe);
+            System.out.println(Thread.currentThread().getName() + "访问描述--box'describe " + describe);
             this.number ++;
             System.out.println(Thread.currentThread().getName() + "即将退出同步代码块");
         }
@@ -83,14 +83,14 @@ class box{
     public static void show(){
         System.out.println(Thread.currentThread().getName() + "进入方法show，该方法中有静态同步代码块");
         synchronized(box.class){
-            System.out.println(Thread.currentThread().getName() + "访问数字--box'number" + size);
+            System.out.println(Thread.currentThread().getName() + "访问数字--box'number " + size);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            System.out.println(Thread.currentThread().getName() + "访问描述--box'describe" + color);
+            System.out.println(Thread.currentThread().getName() + "访问描述--box'describe " + color);
             size ++;
             System.out.println(Thread.currentThread().getName() + "即将退出静态同步代码块");
         }
