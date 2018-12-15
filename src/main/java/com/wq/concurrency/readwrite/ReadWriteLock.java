@@ -62,13 +62,26 @@ public class ReadWriteLock {
          * 写锁能获得的条件：不存在写线程和读线程
          */
         synchronized (monitor) {
+            /**
+             * 使用before/after
+             * before()
+             * try{
+             *     execute()
+             * }finally{
+             *     after()
+             * }
+             * 保证了before执行之后，after一定能执行，即使execute发生异常
+             */
             this.waiterNumber++;
             String thread = Thread.currentThread().getName();
-            while (this.readerNumber > 0 || this.writerNumber > 0) {
-                this.monitor.wait();
+            try {
+                while (this.readerNumber > 0 || this.writerNumber > 0) {
+                    this.monitor.wait();
+                }
+                this.writerNumber++;
+            }finally {
+                this.waiterNumber--;
             }
-            this.waiterNumber --;
-            this.writerNumber++;
             System.out.println(String.format("当前线程[%s]获取了写锁",thread));
         }
     }
