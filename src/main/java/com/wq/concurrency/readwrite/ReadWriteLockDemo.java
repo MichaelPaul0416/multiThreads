@@ -42,8 +42,13 @@ public class ReadWriteLockDemo {
 
         @Override
         public void run() {
-            char[] message = this.dataResource.readMessage();
-            System.out.println(String.format("[%s]--reader->[%s]", Thread.currentThread().getName(), String.valueOf(message)));
+            char[] message;
+            try {
+                message = this.dataResource.readMessage();
+                System.out.println(String.format("[%s]--reader->[%s]", Thread.currentThread().getName(), String.valueOf(message)));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -60,10 +65,14 @@ public class ReadWriteLockDemo {
 
         @Override
         public void run() {
-            if(this.dataResource.writeMessage(message)){
-                System.out.println(String.format("[%s]--writer->[%s]",Thread.currentThread().getName(),message));
-            }else {
-                System.out.println(String.format("[%s] write message[%s] failed",Thread.currentThread().getName(),message));
+            try {
+                if(this.dataResource.writeMessage(message)){
+                    System.out.println(String.format("[%s]--writer->[%s]",Thread.currentThread().getName(),message));
+                }else {
+                    System.out.println(String.format("[%s] write message[%s] failed",Thread.currentThread().getName(),message));
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

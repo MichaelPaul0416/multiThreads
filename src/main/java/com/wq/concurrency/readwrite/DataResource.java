@@ -21,13 +21,23 @@ public class DataResource {
         this.readWriteLock = new ReadWriteLock();
     }
 
-    public char[] readMessage() {
-        char[] message = new char[0];
+    /**
+     *
+     * readMessage/writeMessage采用了Before/After的模式
+     * doBefore()
+     * try{
+     *     execute()
+     * }finally{
+     *     doAfter
+     * }
+     *
+     */
+
+    public char[] readMessage() throws InterruptedException {
+        char[] message;
+        readWriteLock.acquireReadLock();
         try {
-            readWriteLock.acquireReadLock();
             message = doReadMessage();
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
         } finally {
             readWriteLock.releaseReadLock();
         }
@@ -52,13 +62,11 @@ public class DataResource {
     }
 
 
-    public boolean writeMessage(String message){
+    public boolean writeMessage(String message) throws InterruptedException {
         boolean status = false;
+        this.readWriteLock.acquireWriteLock();
         try{
-            this.readWriteLock.acquireWriteLock();
             status = doWriteMessage(message);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.readWriteLock.releaseWriteLock();
         }
