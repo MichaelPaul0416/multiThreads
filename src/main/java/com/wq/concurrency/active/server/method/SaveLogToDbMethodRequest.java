@@ -24,7 +24,7 @@ public class SaveLogToDbMethodRequest implements MethodRequest<VoidResult> {
     }
 
     @Override
-    public Result<VoidResult> execute(boolean sync) {
+    public Result<VoidResult> execute() {
 
         this.serviceCommon.saveLog2Db(level,message);
 

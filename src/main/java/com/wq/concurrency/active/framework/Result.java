@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public abstract class Result<T extends Serializable> implements Serializable{
 
-    protected abstract T get();
+    public abstract T get();
 
-    protected abstract void set(T result);
+    public abstract void set(T result);
 }

@@ -20,17 +20,25 @@ public class DateTimeMethodRequest implements MethodRequest<String> {
 
     private ServiceCommon actualServiceCommon;
 
-    public DateTimeMethodRequest(String pattern,ServiceCommon core){
+    private ASyncResult<String> result;
+
+    public DateTimeMethodRequest(String pattern,ServiceCommon core,ASyncResult<String> result){
         this.pattern = pattern;
         this.actualServiceCommon = core;
+        this.result = result;
 
         this.belongClass = this.actualServiceCommon.getClass();
     }
 
     @Override
-    public Result<String> execute(boolean sync) {
-        String result = actualServiceCommon.dateTimeNow(pattern);
-        return ResultResolver.resolverResultType(SyncInvoker.valueOf(sync),result);
+    public Result<String> execute() {
+        String message = actualServiceCommon.dateTimeNow(pattern);
+//        暂时先注释掉，后序有好的思路再加上
+//        return ResultResolver.resolverResultType(SyncInvoker.valueOf(sync),result);
+
+        this.result.set(message);
+
+        return this.result;
 
     }
 

@@ -14,12 +14,12 @@ public class SyncResult<T extends Serializable> extends Result<T> implements Ser
 
 
     @Override
-    protected T get() {
+    public T get() {
         return result;
     }
 
     @Override
-    protected void set(T result) {
+    public void set(T result) {
         this.result = result;
     }
 }

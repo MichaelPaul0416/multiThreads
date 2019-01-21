@@ -17,7 +17,7 @@ public class ASyncResult<T extends Serializable> extends Result<T> implements Se
     private Object monitor = new Object();
 
     @Override
-    protected T get() {
+    public T get() {
         synchronized (monitor) {
             while (!done) {
                 try {
@@ -32,7 +32,7 @@ public class ASyncResult<T extends Serializable> extends Result<T> implements Se
     }
 
     @Override
-    protected void set(T result) {
+    public void set(T result) {
         if(result == null){
             throw new FrameException(FrameException.BASE_ERROR,"结果集为空");
         }
