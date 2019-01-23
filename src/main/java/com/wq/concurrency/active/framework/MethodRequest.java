@@ -14,4 +14,6 @@ public interface MethodRequest<R extends Serializable> {
 
     //直接返回目标方法的返回对象
     R executeAndReturnRealValue();
+
+    String getMethodName();
 }

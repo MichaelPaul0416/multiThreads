@@ -63,4 +63,9 @@ public class DateTimeMethodRequest implements MethodRequest<String> {
 
         return result.get();
     }
+
+    @Override
+    public String getMethodName() {
+        return METHOD_NAME;
+    }
 }

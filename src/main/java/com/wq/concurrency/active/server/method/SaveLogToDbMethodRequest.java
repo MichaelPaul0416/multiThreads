@@ -15,6 +15,8 @@ public class SaveLogToDbMethodRequest implements MethodRequest<VoidResult> {
     private String message;
     private ServiceCommon serviceCommon;
 
+    private static final String METHOD_NAME = "saveLog2Db";
+
     //其实后续可以用注解注入或者xml注入
     public SaveLogToDbMethodRequest(ServiceCommon serviceCommon,String level,String message) {
         this.level = level;
@@ -38,5 +40,10 @@ public class SaveLogToDbMethodRequest implements MethodRequest<VoidResult> {
         this.serviceCommon.saveLog2Db(level, message);
 
         return new VoidResult();
+    }
+
+    @Override
+    public String getMethodName() {
+        return METHOD_NAME;
     }
 }
