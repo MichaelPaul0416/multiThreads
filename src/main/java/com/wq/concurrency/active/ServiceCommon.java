@@ -1,5 +1,7 @@
 package com.wq.concurrency.active;
 
+import com.wq.concurrency.active.framework.Result;
+
 /**
  * @Author: wangqiang20995
  * @Date:2019/1/19
@@ -8,7 +10,7 @@ package com.wq.concurrency.active;
  */
 public interface ServiceCommon {
 
-    String dateTimeNow(String pattern);
+    Result<String> dateTimeNow(String pattern, String customerId);
 
     void saveLog2Db(String level,String message);
 }

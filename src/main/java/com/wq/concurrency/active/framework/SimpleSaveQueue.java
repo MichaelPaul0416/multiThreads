@@ -25,32 +25,38 @@ public class SimpleSaveQueue<T extends Serializable> {
         methodRequests = new MethodRequest[number];
     }
 
+    //synchronized 锁住的对象监视器必须和调用wait()/notify()/notifyAll()方法的对象是同一个，不然会抛出IllegalMonitorStateException
     public void set(MethodRequest<T> methodRequest) throws InterruptedException {
 
         synchronized (monitor){
             while (count >= methodRequests.length){
-                wait();
+                monitor.wait();
             }
 
             methodRequests[tail] = methodRequest;
             tail = (tail + 1) % methodRequests.length;
             count ++;
-            notifyAll();
+            monitor.notifyAll();
         }
     }
 
     public MethodRequest<T> get() throws InterruptedException {
         synchronized (monitor){
+//            System.out.println("["+Thread.currentThread().getName()+"] count left --> " + count);
             while (count <= 0){
-                wait();
+                monitor.wait();
             }
 
             MethodRequest<T> requests = methodRequests[head];
             head = (head + 1) % methodRequests.length;
             count --;
-            notifyAll();
+            monitor.notifyAll();
 
             return requests;
         }
+    }
+
+    public boolean empty(){
+        return this.count == 0;
     }
 }

@@ -14,6 +14,8 @@ public class DateTimeMethodRequest implements MethodRequest<String> {
 
     private String pattern;
 
+    private String customerId;
+
     private static final String METHOD_NAME = "dateTimeNow";
 
     private Class<?> belongClass;
@@ -22,34 +24,35 @@ public class DateTimeMethodRequest implements MethodRequest<String> {
 
     private ASyncResult<String> result;
 
-    public DateTimeMethodRequest(String pattern,ServiceCommon core,ASyncResult<String> result){
+    public DateTimeMethodRequest(String customerId,String pattern,ServiceCommon core,ASyncResult<String> result){
         this.pattern = pattern;
         this.actualServiceCommon = core;
         this.result = result;
+        this.customerId = customerId;
 
         this.belongClass = this.actualServiceCommon.getClass();
     }
 
     @Override
     public Result<String> execute() {
-        String message = actualServiceCommon.dateTimeNow(pattern);
+        Result<String> message = actualServiceCommon.dateTimeNow(pattern, this.customerId);
 //        暂时先注释掉，后序有好的思路再加上
 //        return ResultResolver.resolverResultType(SyncInvoker.valueOf(sync),result);
 
-        this.result.set(message);
+        this.result.set(message.get());//将SyncResult的结果值存入ASyncResult中
 
         return this.result;
 
     }
 
     @Override
-    public String executeAndReturnOrigin() {
+    public String executeAndReturnRealValue() {
         if(StringUtils.isEmpty(pattern)){
             throw new FrameException(FrameException.SERVICE_ERROR,"入参为空");
         }
 
         //此处以后可以用动态代理进行一些增强拦截
-        String result = actualServiceCommon.dateTimeNow(pattern);
+        Result<String> result = actualServiceCommon.dateTimeNow(pattern, customerId);
 
         //睡1秒模拟网络延迟
         try {
@@ -58,6 +61,6 @@ public class DateTimeMethodRequest implements MethodRequest<String> {
             e.printStackTrace();
         }
 
-        return result;
+        return result.get();
     }
 }

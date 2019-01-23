@@ -1,13 +1,14 @@
 package com.wq.concurrency.active.client;
 
 import com.wq.concurrency.active.ServiceCommon;
-import com.wq.concurrency.active.framework.ASyncResult;
-import com.wq.concurrency.active.framework.MethodRequest;
-import com.wq.concurrency.active.framework.SchedulerHandler;
+import com.wq.concurrency.active.framework.*;
+import com.wq.concurrency.active.server.DefaultServiceCommon;
 import com.wq.concurrency.active.server.method.DateTimeMethodRequest;
+import com.wq.concurrency.active.server.method.SaveLogToDbMethodRequest;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @Author: wangqiang20995
@@ -23,37 +24,67 @@ public class ServiceCommonProxy implements ServiceCommon {
 
     private ServiceCommon coreServiceCommon;
 
-    private ASyncResult aSyncResult;
+    public ServiceCommonProxy(ServiceCommon coreServiceCommon) {
+        this(coreServiceCommon, new SchedulerHandler(QUEUE_LENGTH));
+    }
 
-    public ServiceCommonProxy(ServiceCommon coreServiceCommon,ASyncResult aSyncResult){
-        this.coreServiceCommon = coreServiceCommon;
-        this.aSyncResult =  aSyncResult;
-        schedulerHandler = new SchedulerHandler(QUEUE_LENGTH);
-        schedulerHandler.start();
+    public ServiceCommonProxy(ServiceCommon serviceCommon, SchedulerHandler schedulerHandler) {
+        this.coreServiceCommon = serviceCommon;
+        this.schedulerHandler = schedulerHandler;
+        this.schedulerHandler.setName("Scheduler Thread");
+        if (this.schedulerHandler.getState().equals(Thread.State.NEW)) {
+            this.schedulerHandler.start();
+        }
     }
 
     @Override
-    public String dateTimeNow(String pattern) {
-        MethodRequest<String> methodRequest = new DateTimeMethodRequest(pattern,this.coreServiceCommon,aSyncResult);
-        return methodRequest.execute();
+    public Result<String> dateTimeNow(String pattern, String customerId) {
+        ASyncResult<String> aSyncResult = new ASyncResult<>();
+        MethodRequest<String> methodRequest = new DateTimeMethodRequest(customerId,
+                pattern, this.coreServiceCommon, aSyncResult);
+        schedulerHandler.invoke(methodRequest);
+        return aSyncResult;
     }
 
     @Override
     public void saveLog2Db(String level, String message) {
-
+        MethodRequest<VoidResult> voidResult = new SaveLogToDbMethodRequest(this.coreServiceCommon, level, message);
+        schedulerHandler.invoke(voidResult);
     }
 
 
-    public static ServiceCommon instance(){
-
+    public static ServiceCommon instanceProxy() {
+        ServiceCommon realServiceCommon = new DefaultServiceCommon();
+        ServiceCommon proxyServiceCommon = (ServiceCommon) Proxy.newProxyInstance(
+                ServiceCommonProxy.class.getClassLoader(), new Class[]{ServiceCommon.class},
+                new InnerProxyHandler(new ServiceCommonProxy(realServiceCommon)));
+        return proxyServiceCommon;
     }
 
-    private class InnerProxyHander implements InvocationHandler{
+    public static ServiceCommon instanceProxy(SchedulerHandler schedulerHandler) {
+        ServiceCommon realServiceCommon = new DefaultServiceCommon();
+        ServiceCommon proxyServiceCommon = (ServiceCommon) Proxy.newProxyInstance(
+                ServiceCommonProxy.class.getClassLoader(), new Class[]{ServiceCommon.class},
+                new InnerProxyHandler(new ServiceCommonProxy(realServiceCommon, schedulerHandler))
+        );
 
+        return proxyServiceCommon;
+    }
+
+    private static class InnerProxyHandler implements InvocationHandler {
+
+        private ServiceCommon proxy;//对静态代理对象进行拦截
+
+        public InnerProxyHandler(ServiceCommon serviceCommon) {
+            this.proxy = serviceCommon;
+        }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            return null;
+//            System.out.println("[" + Thread.currentThread().getName() + "] handler pre check");
+            Object object = method.invoke(this.proxy, args);
+//            System.out.println("[" + Thread.currentThread().getName() + "] handler after check");
+            return object;
         }
     }
 }

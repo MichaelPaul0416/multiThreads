@@ -28,12 +28,13 @@ public class SaveLogToDbMethodRequest implements MethodRequest<VoidResult> {
 
         this.serviceCommon.saveLog2Db(level,message);
 
-        ResultResolver.resolverResultType(SyncInvoker.valueOf(sync),new VoidResult());
-        return null;
+        Result<VoidResult> resultResult =
+                ResultResolver.resolverResultType(SyncInvoker.DEFAULT_INVOKER,new VoidResult());
+        return resultResult;
     }
 
     @Override
-    public VoidResult executeAndReturnOrigin() {
+    public VoidResult executeAndReturnRealValue() {
         this.serviceCommon.saveLog2Db(level, message);
 
         return new VoidResult();

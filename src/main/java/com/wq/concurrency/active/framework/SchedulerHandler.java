@@ -10,14 +10,16 @@ import java.io.Serializable;
  */
 public class SchedulerHandler extends Thread {
 
-    private SimpleSaveQueue simpleSaveQueue ;
+    private SimpleSaveQueue simpleSaveQueue;
 
-    public SchedulerHandler(int length){
+    private volatile boolean stop = false;
+
+    public SchedulerHandler(int length) {
         simpleSaveQueue = new SimpleSaveQueue(length);
     }
 
 
-    public <T extends Serializable> boolean invoke(MethodRequest<T> methodRequest){
+    public <T extends Serializable> boolean invoke(MethodRequest<T> methodRequest) {
         try {
             this.simpleSaveQueue.set(methodRequest);
             return true;
@@ -27,17 +29,38 @@ public class SchedulerHandler extends Thread {
         }
     }
 
+    public void stopHandler() {
+        try {
+            while (!this.simpleSaveQueue.empty()) {//自旋锁，一直等到队列为空
+                Thread.sleep(100);
+            }
+        }catch (InterruptedException e){
+            System.out.println("提交停止Scheduler线程处理请求失败");
+        }
+
+        this.stop = true;
+        interrupt();//当前线程置为中断状态
+    }
+
     @Override
     public void run() {
 
-        while (true){
+        while (!stop) {
             try {
                 MethodRequest<Serializable> methodRequest = simpleSaveQueue.get();
                 methodRequest.execute();
 
+                //模拟执行完一个task之后需要休息一下
+                Thread.sleep(2500);
             } catch (InterruptedException e) {
-                System.out.println(Thread.currentThread().getName() + "-->执行出现异常");
+                if(this.simpleSaveQueue.empty()) {
+                    System.out.println("[" + Thread.currentThread().getName() + "] Scheduler 线程任务执行完毕，准备结束...");
+                }else {
+                    System.out.println("["+Thread.currentThread().getName()+"] Scheduler 线程休眠时被中断，由于没有执行完提交的任务，所以继续执行");
+                }
             }
         }
+
+        System.out.println("[" + Thread.currentThread().getName() + "] 执行完毕，即将关闭......");
     }
 }

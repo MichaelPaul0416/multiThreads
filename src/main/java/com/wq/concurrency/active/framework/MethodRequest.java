@@ -13,5 +13,5 @@ public interface MethodRequest<R extends Serializable> {
     Result<R> execute();
 
     //直接返回目标方法的返回对象
-    R executeAndReturnOrigin();
+    R executeAndReturnRealValue();
 }
