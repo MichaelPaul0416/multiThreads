@@ -1,7 +1,11 @@
 package com.wq.concurrency.active.client;
 
 import com.wq.concurrency.active.ServiceCommon;
-import com.wq.concurrency.active.framework.*;
+import com.wq.concurrency.active.framework.core.MethodRequest;
+import com.wq.concurrency.active.framework.core.SchedulerHandler;
+import com.wq.concurrency.active.framework.result.ASyncResult;
+import com.wq.concurrency.active.framework.result.Result;
+import com.wq.concurrency.active.framework.result.VoidResult;
 import com.wq.concurrency.active.server.DefaultServiceCommon;
 import com.wq.concurrency.active.server.method.DateTimeMethodRequest;
 import com.wq.concurrency.active.server.method.SaveLogToDbMethodRequest;

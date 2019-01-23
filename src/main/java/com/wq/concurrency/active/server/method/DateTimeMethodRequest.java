@@ -2,6 +2,9 @@ package com.wq.concurrency.active.server.method;
 
 import com.wq.concurrency.active.ServiceCommon;
 import com.wq.concurrency.active.framework.*;
+import com.wq.concurrency.active.framework.core.MethodRequest;
+import com.wq.concurrency.active.framework.result.ASyncResult;
+import com.wq.concurrency.active.framework.result.Result;
 import org.apache.commons.lang3.StringUtils;
 
 /**

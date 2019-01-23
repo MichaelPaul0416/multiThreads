@@ -1,7 +1,7 @@
 package com.wq.concurrency.active.client;
 
 import com.wq.concurrency.active.ServiceCommon;
-import com.wq.concurrency.active.framework.Result;
+import com.wq.concurrency.active.framework.result.Result;
 
 /**
  * @Author: wangqiang20995

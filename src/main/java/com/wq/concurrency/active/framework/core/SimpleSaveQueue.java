@@ -1,4 +1,4 @@
-package com.wq.concurrency.active.framework;
+package com.wq.concurrency.active.framework.core;
 
 import java.io.Serializable;
 

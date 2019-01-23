@@ -1,4 +1,4 @@
-package com.wq.concurrency.active.framework;
+package com.wq.concurrency.active.framework.result;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class ResultResolver {
 
-    public static <T extends Serializable> Result<T> resolverResultType(SyncInvoker sync,T result) {
+    public static <T extends Serializable> Result<T> resolverResultType(SyncInvoker sync, T result) {
 
         if (SyncInvoker.isASynchronized(sync)){
             ASyncResult<T> aSyncResult = new ASyncResult<>();

@@ -1,4 +1,4 @@
-package com.wq.concurrency.active.framework;
+package com.wq.concurrency.active.framework.result;
 
 /**
  * @Author: wangqiang20995
