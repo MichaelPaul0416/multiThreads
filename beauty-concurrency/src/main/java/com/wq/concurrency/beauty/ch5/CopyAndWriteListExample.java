@@ -28,6 +28,7 @@ public class CopyAndWriteListExample {
         }
 
         //只会输出Hello World Jane,不会出现world和love
+        //iterator返回的只是一个快照,而不是实时的,是弱一致性的体现
         while (iterator.hasNext()){
             System.out.println(iterator.next());
         }
