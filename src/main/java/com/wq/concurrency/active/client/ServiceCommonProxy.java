@@ -4,6 +4,7 @@ import com.wq.concurrency.active.ServiceCommon;
 import com.wq.concurrency.active.framework.ASyncResult;
 import com.wq.concurrency.active.framework.MethodRequest;
 import com.wq.concurrency.active.framework.SchedulerHandler;
+import com.wq.concurrency.active.server.DefaultServiceCommon;
 import com.wq.concurrency.active.server.method.DateTimeMethodRequest;
 
 import java.lang.reflect.InvocationHandler;
@@ -35,7 +36,7 @@ public class ServiceCommonProxy implements ServiceCommon {
     @Override
     public String dateTimeNow(String pattern) {
         MethodRequest<String> methodRequest = new DateTimeMethodRequest(pattern,this.coreServiceCommon,aSyncResult);
-        return methodRequest.execute();
+        return methodRequest.execute().get();
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ServiceCommonProxy implements ServiceCommon {
 
 
     public static ServiceCommon instance(){
-
+        return new DefaultServiceCommon();
     }
 
     private class InnerProxyHander implements InvocationHandler{

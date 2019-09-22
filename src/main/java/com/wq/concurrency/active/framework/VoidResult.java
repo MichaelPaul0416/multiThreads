@@ -11,12 +11,12 @@ import java.io.Serializable;
 public class VoidResult extends Result implements Serializable{
 
     @Override
-    protected Serializable get() {
+    public Serializable get() {
         return null;
     }
 
     @Override
-    protected void set(Serializable result) {
+    public void set(Serializable result) {
 
     }
 }
