@@ -1,14 +1,14 @@
 package wq.concurrency.active.client;
 
-import com.wq.concurrency.active.ServiceCommon;
-import com.wq.concurrency.active.framework.core.MethodRequest;
-import com.wq.concurrency.active.framework.core.SchedulerHandler;
-import com.wq.concurrency.active.framework.result.ASyncResult;
-import com.wq.concurrency.active.framework.result.Result;
-import com.wq.concurrency.active.framework.result.VoidResult;
-import com.wq.concurrency.active.server.DefaultServiceCommon;
-import com.wq.concurrency.active.server.method.DateTimeMethodRequest;
-import com.wq.concurrency.active.server.method.SaveLogToDbMethodRequest;
+import wq.concurrency.active.ServiceCommon;
+import wq.concurrency.active.framework.core.MethodRequest;
+import wq.concurrency.active.framework.core.SchedulerHandler;
+import wq.concurrency.active.framework.result.ASyncResult;
+import wq.concurrency.active.framework.result.Result;
+import wq.concurrency.active.framework.result.VoidResult;
+import wq.concurrency.active.server.DefaultServiceCommon;
+import wq.concurrency.active.server.method.DateTimeMethodRequest;
+import wq.concurrency.active.server.method.SaveLogToDbMethodRequest;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

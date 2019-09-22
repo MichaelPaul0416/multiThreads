@@ -1,6 +1,6 @@
 package wq.concurrency.active;
 
-import com.wq.concurrency.active.framework.result.Result;
+import wq.concurrency.active.framework.result.Result;
 
 /**
  * @Author: wangqiang20995

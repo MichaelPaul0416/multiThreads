@@ -1,6 +1,6 @@
 package wq.concurrency.active.client;
 
-import com.wq.concurrency.active.framework.core.SchedulerHandler;
+import wq.concurrency.active.framework.core.SchedulerHandler;
 
 /**
  * @Author: wangqiang20995

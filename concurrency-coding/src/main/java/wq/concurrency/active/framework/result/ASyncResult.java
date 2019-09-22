@@ -1,6 +1,6 @@
 package wq.concurrency.active.framework.result;
 
-import com.wq.concurrency.active.framework.FrameException;
+import wq.concurrency.active.framework.FrameException;
 
 import java.io.Serializable;
 

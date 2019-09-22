@@ -1,6 +1,6 @@
 package wq.concurrency.active.framework.core;
 
-import com.wq.concurrency.active.framework.result.Result;
+import wq.concurrency.active.framework.result.Result;
 
 import java.io.Serializable;
 

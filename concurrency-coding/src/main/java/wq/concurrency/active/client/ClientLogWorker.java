@@ -1,6 +1,6 @@
 package wq.concurrency.active.client;
 
-import com.wq.concurrency.active.ServiceCommon;
+import wq.concurrency.active.ServiceCommon;
 
 /**
  * @Author: wangqiang20995

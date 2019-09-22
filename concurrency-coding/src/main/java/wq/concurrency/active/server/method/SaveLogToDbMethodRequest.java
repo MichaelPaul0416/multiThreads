@@ -1,11 +1,11 @@
 package wq.concurrency.active.server.method;
 
-import com.wq.concurrency.active.ServiceCommon;
-import com.wq.concurrency.active.framework.core.MethodRequest;
-import com.wq.concurrency.active.framework.result.Result;
-import com.wq.concurrency.active.framework.result.ResultResolver;
-import com.wq.concurrency.active.framework.result.SyncInvoker;
-import com.wq.concurrency.active.framework.result.VoidResult;
+import wq.concurrency.active.ServiceCommon;
+import wq.concurrency.active.framework.core.MethodRequest;
+import wq.concurrency.active.framework.result.Result;
+import wq.concurrency.active.framework.result.ResultResolver;
+import wq.concurrency.active.framework.result.SyncInvoker;
+import wq.concurrency.active.framework.result.VoidResult;
 
 /**
  * @Author: wangqiang20995

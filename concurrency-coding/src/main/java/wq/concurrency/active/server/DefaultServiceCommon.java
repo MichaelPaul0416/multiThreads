@@ -1,8 +1,8 @@
 package wq.concurrency.active.server;
 
-import com.wq.concurrency.active.ServiceCommon;
-import com.wq.concurrency.active.framework.result.Result;
-import com.wq.concurrency.active.framework.result.SyncResult;
+import wq.concurrency.active.ServiceCommon;
+import wq.concurrency.active.framework.result.Result;
+import wq.concurrency.active.framework.result.SyncResult;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
