@@ -46,7 +46,7 @@ public class MysqlDistributeCmdLock implements Lock {
         }catch (Throwable e){
             logger.error(e.getLocalizedMessage(),e);
         }finally {
-
+            releaseLock(key);
         }
     }
 
