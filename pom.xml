@@ -11,6 +11,7 @@
     <modules>
         <module>concurrency-coding</module>
         <module>beauty-concurrency</module>
+        <module>distribute-lock</module>
     </modules>
 
 
