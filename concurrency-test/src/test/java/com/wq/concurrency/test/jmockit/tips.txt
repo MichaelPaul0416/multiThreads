@@ -1,0 +1,23 @@
+JMockit的步骤
+record -> replay -> verify
+@Mocked
+可以用来修饰类或者接口，告诉JMockit，生成一个Mocked对象，这个对象方法（包括静态方法）会返回默认值。
+如果返回类型是基本数据类型，那么就返回0，如果返回类型是string，那么就返回null，如果是其他引用类型，就返回这个引用类型的Mocked对象
+当测试程序依赖某个接口的时候，比较适合使用@Mocked注解
+
+@Injectable
+也是告诉JMockit，生成一个Mock对象，通常和@Tested组合使用
+和@Mocked的区别是，@Mocked作用于修饰类的所有实例，包括静态方法，但是@Injectable注解作用域修饰类的当前实例，对修饰类的静态方法，构造函数没有影响
+@Tested注解修饰的类，表示的是我们要测试对象，在这里表示，也就是需要修饰需要测试的类
+JMockit和spring类似，会把@Injectable修饰的对象，注入到@Tested修饰的对象中
+注入的规则：先按照类型，再按照名称，如果找到多个可以注入的@Injectable对象，那么就选择最优先定义的@Injectable对象
+使用场景：需要手工管理被测试类的依赖的时候，就需要用到@Tested+@Injectable
+
+@Capturing
+主要适用在，需要对子类的某些场景和行为进行mock，但是现在只知道父类的类型，不知道具体的子类类型的时候，可以使用这个注解来mock父类方法的子类实现
+这里的子类，可以是我们手写的子类，也可以是java动态代理生成的类，也可以是cglib的生成的动态代理类
+
+Expectation
+通过构造Expectation的匿名子类，可以实现JMockit步骤中的record步骤，该类可以是无入参的构造器，也可以是有入参的构造器
+有入参的时候，如果入参是Class对象，那么record步骤的作用域就是Class对象的所有实例
+如果入参是实例对象，那么record步骤中（Expectation子类的代码块）的作用域就只是当前作为入参传入的实例
