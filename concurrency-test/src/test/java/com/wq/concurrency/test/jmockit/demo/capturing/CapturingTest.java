@@ -8,6 +8,9 @@ import org.junit.Test;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CapturingTest {
     private static long UID = 123;
@@ -54,6 +57,15 @@ public class CapturingTest {
         // 不使用@Capturing修饰的mock对象，不record
         Assert.assertTrue(!privilege1.allow(UID));
         Assert.assertTrue(!privilege2.allow(UID));
+    }
+
+    @Test
+    public void toArray(){
+        List<String> list = new ArrayList<>();
+        list.add("hello");
+        list.add("world");
+        String[] ary = list.toArray(new String[]{});
+        Arrays.stream(ary).forEach(item -> System.out.println(item));
     }
 
 }
