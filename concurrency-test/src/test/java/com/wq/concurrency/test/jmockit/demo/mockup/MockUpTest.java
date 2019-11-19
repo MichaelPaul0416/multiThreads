@@ -1,15 +1,14 @@
 package com.wq.concurrency.test.jmockit.demo.mockup;
 
 import junit.framework.Assert;
-import mockit.Mock;
-import mockit.MockUp;
+import mockit.*;
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MockUpTest {
+
+    private DatetimeWrapper datetimeWrapper;
 
     @Test
     public void test() {
@@ -24,5 +23,27 @@ public class MockUpTest {
         };
         Calendar calendar = Calendar.getInstance();
         Assert.assertEquals(2017,calendar.get(Calendar.YEAR));
+    }
+
+    @Test
+    public void privateMethod(){
+        new MockUp<DatetimeWrapper>(){
+            @Mock
+            private String display(){
+                return "abc";
+            }
+        };
+
+//        new Expectations(){
+//            {
+//                datetimeWrapper.getDisplayLength();
+//                result = 1;
+//            }
+//        };
+
+        DatetimeWrapper datetimeWrapper = DatetimeWrapper.newInstance();
+        int length = datetimeWrapper.getDisplayLength();
+        Assert.assertEquals(3,length);
+
     }
 }

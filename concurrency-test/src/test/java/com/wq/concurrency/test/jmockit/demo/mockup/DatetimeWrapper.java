@@ -19,6 +19,19 @@ public class DatetimeWrapper {
         return wrapper;
     }
 
+    private String display(){
+        return "hello";
+    }
+
+    public int getDisplayLength(){
+        int length = display().length();
+        System.out.println("length:" + length);
+        if(length > 3){
+            throw new IllegalArgumentException();
+        }
+        return length;
+    }
+
     /**
      * 记录更新日期
      */
