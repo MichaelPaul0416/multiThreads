@@ -13,6 +13,7 @@
         <module>beauty-concurrency</module>
         <module>distribute-lock</module>
         <module>concurrency-test</module>
+        <module>jvm-demo</module>
     </modules>
 
 
