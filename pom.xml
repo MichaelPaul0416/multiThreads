@@ -14,6 +14,7 @@
         <module>distribute-lock</module>
         <module>concurrency-test</module>
         <module>jvm-demo</module>
+        <module>data-struct</module>
     </modules>
 
 
